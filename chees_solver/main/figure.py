@@ -1,72 +1,65 @@
+from abc import ABC, abstractmethod
 
-limits =[1,2,3,4,5,6,7,8]
-limits2=['a','b','c','d','e','f','g','h']
 
-class Figure:
+
+class Figure(ABC):
+    global vertical,horizontal
     vertical = ["1", "2", "3", "4", "5", "6", "7", "8"]
     horizontal = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
-    def __init__(self,data):
-        self.data=data
+    def __init__(self, data):
+        self.data = data
+        self.x = self.data[0]
+        self.y = int((self.data[1]))
+        self.available_moves = []
+
+    @abstractmethod
     def list_available_moves(self):
         pass
-    def validate_move(self,dest_field):
-        pass
+
+
+    def validate_move(self, dest_field):
+        if dest_field in self.list_available_moves():
+            return "This move is available"
+        return "You can't make this move"
 
     def __str__(self):
-        return self.data[1]
-class pawl:
-    def __init__(self,data):
-        self.data=data
+        return self.data
+
+
+class pawl(Figure):
+    def list_available_moves(self):
+        if self.y == 2:
+            self.available_moves.append(f'{self.x}{self.y + 1}')
+            self.available_moves.append(f'{self.x}{self.y + 2}')
+            return self.available_moves
+        self.available_moves.append(f"{self.x}{self.y + 1}")
+        return self.available_moves
+
+
+
+
+class tower(Figure):
 
     def list_available_moves(self):
 
-        limits = [1, 2, 3, 4, 5, 6, 7, 8]
-        limits2 = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
-        self.x=self.data[0]
-        self.y=int(self.data[1])
-
-
-        return f"{self.x}{self.y+1}"
-
-    def validate_move(self,dest_field):
-        if self.list_available_moves()==dest_field:
-            return "ok"
-        return "ggvp"
-
-
-
-class tower(Figure) :
-
-    def list_available_moves(self):
-        available_moves=[]
-        vertical = ["1", "2", "3", "4", "5", "6", "7", "8"]
-        horizontal = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
-        self.x=self.data[0]
-        self.y=(self.data[1])
-        for i in horizontal:
+        self.x = self.data[0]
+        self.y = (self.data[1])
+        for i,j in zip(horizontal,vertical):
             if i != self.x:
-                available_moves.append(i+self.y )
-        for i in vertical:
-            if i != self.y:
-                available_moves.append(self.x + str(i))
-        return available_moves
-
-    def validate_move(self,dest_field):
-        if dest_field in self.list_available_moves():
-            return "ok"
-
-        return "wrong move"
+                self.available_moves.append(i + self.y)
+            if j != self.y:
+                self.available_moves.append(self.x + str(j))
+        return self.available_moves
 
 
 
-def get_position(figure,position):
+def get_position(figure, position):
     data = figure
-    p=position
+    p = position
     if data == "tower":
-        inf=tower(p)
+        inf = tower(p)
         return (inf.list_available_moves())
+
+
 #
-b=tower('a2')
-print(b.list_available_moves())
-# print(b.validate_move('ar'))
 

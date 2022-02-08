@@ -13,6 +13,7 @@ def start (request):
 
 
 def index (request,figure,fild):
+
     data={
         "availableMoves":get_position(figure,fild),
         "figure": f"{figure}",
@@ -20,6 +21,8 @@ def index (request,figure,fild):
         'error':'null'
 
     }
+
+    print(request,"i wont bi ci",JsonResponse(data).content)
     return JsonResponse(data)
 
 # Create your views here.
