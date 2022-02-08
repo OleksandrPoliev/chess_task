@@ -131,6 +131,6 @@ Przykładowa odpowiedź:
 2. https://flask.palletsprojects.com/en/1.1.x/testing/
 3. https://blog.miguelgrinberg.com/post/designing-a-restful-api-with-python-and-flask
 
-Plusem będzie zastosowanie Static Typing oraz Dockera.
+Plusem będzie zastosowanie solver oraz Dockera.
 
 W razie pytań, proszę o kontakt.

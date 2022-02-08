@@ -59,7 +59,14 @@ class tower(Figure) :
 
 
 
-b=Tower('a2')
+def get_position(figure,position):
+    data = figure
+    p=position
+    if data == "tower":
+        inf=tower(p)
+        return (inf.list_available_moves())
+#
+b=tower('a2')
 print(b.list_available_moves())
-print(b.validate_move('ar'))
+# print(b.validate_move('ar'))
 
