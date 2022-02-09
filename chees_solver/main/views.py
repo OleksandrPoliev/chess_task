@@ -9,17 +9,20 @@ function :
 
 """
 from .figure import get_position, validate_move_for
-from django.http import JsonResponse,HttpResponse,HttpResponseNotFound,\
-    HttpResponseServerError
-
+from django.http import (
+    JsonResponse,
+    HttpResponse,
+    HttpResponseNotFound,
+    HttpResponseServerError,
+)
 
 
 def start(request):
     return HttpResponse(
         "Hi, if you need chess helper just write in url field  something "
-        "like this:   /pawn/a3   and you get json with all possible move for pawn "
-        "from this chess field or write:   /pawn/a3/b2   and you get json with "
-        "info is that move possible or not "
+        "like this:   /pawn/a3   and you get json with all possible move "
+        "for pawn from this chess field or write:   /pawn/a3/b2  "
+        " and you get json with info is that move possible or not "
     )
 
 
