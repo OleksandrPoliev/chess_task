@@ -1,147 +1,221 @@
-import pytest
-from chees_solver.main.views import index
-from chees_solver.main.figure import pawl,tower
+"""
 
-from django.test import Client
-client = Client()
-k=client.get(r'C:\Users\admin\PycharmProjects\t_for_company\chees_solver\main\views.py')
-print(k)
+tests for all chess figures from main.figure.py
+
+"""
+
+import pytest
+from chees_solver.main.figure import Pawn, Bishop, King, Knight, Rook, Queen
+
+
 @pytest.fixture()
-def prepareddata():
-    Data=pawl('a2')
+def prepareddata_Pawn():
+    Data_Pawn = Pawn("a2")
+
+    yield Data_Pawn
+
+
+def test_Pawn_list_available_moves(prepareddata_Pawn: Pawn):
+    assert prepareddata_Pawn.list_available_moves() == ["a3", "a4"]
+
+
+def test_Pawn_validate_move(prepareddata_Pawn: Pawn):
+    assert prepareddata_Pawn.validate_move("a3") == "This move is available"
+
+
+def test_Pawn_error_list_available_moves(prepareddata_Pawn: Pawn):
+    with pytest.raises(AssertionError):
+        assert prepareddata_Pawn.list_available_moves() == 6
+
+
+def test_Pawn_error_validate_move(prepareddata_Pawn: Pawn):
+    with pytest.raises(AssertionError):
+        assert prepareddata_Pawn.validate_move("a3") == "53"
+
+
+@pytest.fixture()
+def prepareddata_King():
+    Data = King("c6")
     yield Data
 
 
-def test_data(prepareddata:pawl):
-    assert prepareddata.list_available_moves()==['a3', 'a4']
-
-def test_pavi(prepareddata:pawl):
-    assert prepareddata.validate_move('a3') == 'This move is available'
-
-def test_data_error(prepareddata:pawl):
-   with pytest.raises(AssertionError):
-            assert prepareddata.list_available_moves()==6
-def test_pavi_error(prepareddata:pawl):
-   with pytest.raises(AssertionError):
-            assert prepareddata.validate_move('a3')==6
-
-
-@pytest.mark.performs
-@pytest.mark.parametrize('data , expected',[('a5',['a6'])])
-def test_x(data,expected):
-    assert pawl(data).list_available_moves()==expected
-#
+def test_King_list_available_moves(prepareddata_King: King):
+    assert prepareddata_King.list_available_moves() == [
+        "b1",
+        "b2",
+        "b3",
+        "c1",
+        "c2",
+        "c3",
+        "d1",
+        "d2",
+        "d3",
+    ]
 
 
-
-# class Testopp:
-#     def test_data(self):
-#         data= Loopse([x for x in range(10)])
-#         assert data.loos()==[0,5]
-#
-#
-#     def test_data_error(self):
-#         data2 = Loopse([10, 4, 'str'])
-#         with pytest.raises(TypeError):
-#             assert data2.loos()==[0,5,10]
+def test_King_validate_move(prepareddata_King: King):
+    assert prepareddata_King.validate_move("a3") == "You can't make this move"
 
 
-# @pytest.fixture()
-# def prepareddata():
-#     Data=NumberChenge(0)
-#     yield Data
-#     Data=NumberChenge(0)
-#
-#
-# def test_data(prepareddata:NumberChenge):
-#     assert prepareddata.cheng_n()==6
-#
-#
-# def test_data_error(prepareddata:NumberChenge):
-#     prepareddata.__init__('f')
-#     with pytest.raises(TypeError):
-#             assert prepareddata.cheng_n()==6
-# @pytest.fixture()
-# def preper():
-#     testclass = Test1(data=['a', 'b', 'c', 'd', 'f'])
-#     yield testclass
-#     testclass = Test1(data=['a', 'b', 'c', 'd', 'f'])
-#
-#
-# def test_index(preper):
-#     assert preper.index() ==[0,1,2,3,4]
-#
-# def test_indexrange(preper):
-#     assert preper.indexrange()==[2,3,4]
-#
-# def test_index_error(preper):
-#     with pytest.raises(AssertionError):
-#         assert preper.index()==[2,3,4,5]
-#
-#
-# import pytest
-# from uuuu import *
-#
-# @pytest.mark.skipif(5==5,reason="test skipif")
-# def test_answer():
-#     assert x1(5) == 5
-# @pytest.mark.skip(reason="dont need")
-# class TestClass:
-#     def test_one(self):
-#         x = "this"
-#         assert "h" in x
-#
-# @pytest.mark.performs
-# def test_case_1():
-#     assert True
-# @pytest.mark.markz
-# def test_case_2():
-#     assert True
-#
-# # for run category pytest -m markz(or performs) -v
-#
-#
-#
-#
-#
-# @pytest.mark.parametrize('x,expected',[(6,7),
-#                                        (8,9),
-#                                        (12,13),
-#
-#
-#                                        ])
-# def test_x(x,expected):
-#     assert x1(x)==expected
-#
-#
-# @pytest.mark.parametrize('x,expected',[(6,0),
-#                                        (8,0),
-#                                        (12,5),])
-# def test_zero_d(x,expected):
-#     with pytest.raises(ZeroDivisionError):
-#         assert zero_d(x) ==expected
-#
-#
-# def test_join_db():
-#     db=MYDB()
-#     conn=db.conect("server")
-#     cur=conn.Cursor()
-#     id=cur.execute('select id from database where name=jon')
-#     assert id==123
-#
-# def test_join_dtb():
-#     db=MYDB()
-#     conn=db.conect("server")
-#     cur=conn.Cursor()
-#     id=cur.execute('select id from database where name=jon')
-#     assert id==954
-#
-#
-#
-#
-# def pytest_run_for():
-#     return pytest.main(['-s', 'test_data.py'])
-#
-#
-# if __name__ == "__main__":
-#     pytest_run_for()
+def test_King_error_list_available_moves(prepareddata_King: King):
+    with pytest.raises(AssertionError):
+        assert prepareddata_King.list_available_moves() == 6
+
+
+def test_King_error_validate_move(prepareddata_King: King):
+    with pytest.raises(AssertionError):
+        assert prepareddata_King.validate_move("a3") == 6
+
+
+@pytest.fixture()
+def prepareddata_Bishop():
+    Data = Bishop("d4")
+    yield Data
+
+
+def test_Bishop_list_available_moves(prepareddata_Bishop: Bishop):
+    assert prepareddata_Bishop.list_available_moves() == [
+        "a1",
+        "a7",
+        "b2",
+        "b6",
+        "c3",
+        "c5",
+        "e3",
+        "e5",
+        "f2",
+        "f6",
+        "g1",
+        "g7",
+        "h8",
+    ]
+
+
+def test_Bishop_validate_move(prepareddata_Bishop: Bishop):
+    assert prepareddata_Bishop.validate_move("a7") == "This move is available"
+
+
+def test_Bishop_error_list_available_moves(prepareddata_Bishop: Bishop):
+    with pytest.raises(AssertionError):
+        assert prepareddata_Bishop.list_available_moves() == 6
+
+
+def test_Bishop_error_validate_move(prepareddata_Bishop: Bishop):
+    with pytest.raises(AssertionError):
+        assert prepareddata_Bishop.validate_move("a3") == 6
+
+
+@pytest.fixture()
+def prepareddata_Knight():
+    Data = Knight("b5")
+    yield Data
+
+
+def test_Knight_list_available_moves(prepareddata_Knight: Knight):
+    assert prepareddata_Knight.list_available_moves() == [
+        "a3",
+        "a7",
+        "c3",
+        "c7",
+        "d4",
+        "d6",
+    ]
+
+
+def test_Knight_validate_move(prepareddata_Knight: Knight):
+    assert prepareddata_Knight.validate_move("a3") == "This move is available"
+
+
+def test_Knight_error_list_available_moves(prepareddata_Knight: Knight):
+    with pytest.raises(AssertionError):
+        assert prepareddata_Knight.list_available_moves() == 6
+
+
+def test_Knight_error_validate_move(prepareddata_Knight: Knight):
+    with pytest.raises(AssertionError):
+        assert prepareddata_Knight.validate_move("a3") == "bz"
+
+
+@pytest.fixture()
+def prepareddata_Rook():
+    Data = Rook("b5")
+    yield Data
+
+
+def test_Rook_list_available_moves(prepareddata_Rook: Rook):
+    assert prepareddata_Rook.list_available_moves() == [
+        "a5",
+        "b1",
+        "b2",
+        "c5",
+        "b3",
+        "d5",
+        "b4",
+        "e5",
+        "f5",
+        "b6",
+        "g5",
+        "b7",
+        "h5",
+        "b8",
+    ]
+
+
+def test_Rook_validate_move(prepareddata_Rook: Rook):
+    assert prepareddata_Rook.validate_move("a3") == "You can't make this move"
+
+
+def test_Rook_error_list_available_moves(prepareddata_Rook: Rook):
+    with pytest.raises(AssertionError):
+        assert prepareddata_Rook.list_available_moves() == 6
+
+
+def test_Rook_error_validate_move(prepareddata_Rook: Rook):
+    with pytest.raises(AssertionError):
+        assert prepareddata_Rook.validate_move("a3") == "bibo"
+
+
+@pytest.fixture()
+def prepareddata_Queen():
+    Data = Queen("b8")
+    yield Data
+
+
+def test_Queen_list_available_moves(prepareddata_Queen: Queen):
+    assert prepareddata_Queen.list_available_moves() == [
+        "a7",
+        "a8",
+        "b1",
+        "b2",
+        "b3",
+        "b4",
+        "b5",
+        "b6",
+        "b7",
+        "c7",
+        "c8",
+        "d6",
+        "d8",
+        "e5",
+        "e8",
+        "f4",
+        "f8",
+        "g3",
+        "g8",
+        "h2",
+        "h8",
+    ]
+
+
+def test_Queen_validate_move(prepareddata_Queen: Queen):
+    assert prepareddata_Queen.validate_move("a3") == "You can't make this move"
+
+
+def test_Queen_error_list_available_moves(prepareddata_Queen: Queen):
+    with pytest.raises(AssertionError):
+        assert prepareddata_Queen.list_available_moves() == 6
+
+
+def test_Queen_error_validate_move(prepareddata_Queen: Queen):
+    with pytest.raises(AssertionError):
+        assert prepareddata_Queen.validate_move("a3") == 6
