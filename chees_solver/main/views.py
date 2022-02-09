@@ -8,12 +8,10 @@ function :
             :return validate_move for figure/position/needed_position
 
 """
-
-from django.http import HttpResponse
 from .figure import get_position, validate_move_for
-from django.http import JsonResponse
-from django.http import HttpResponseNotFound
-from django.http import HttpResponseServerError
+from django.http import JsonResponse,HttpResponse,HttpResponseNotFound,\
+    HttpResponseServerError
+
 
 
 def start(request):
@@ -25,38 +23,38 @@ def start(request):
     )
 
 
-def index(request, figure, fild):
+def index(request, figure, field):
     figure = figure.lower()
     data = {
         r"figure": f"{figure}",
-        r"currentField ": f"{fild}",
+        r"currentField ": f"{field}",
     }
-    if get_position(figure, fild) == "invalid data":
+    if get_position(figure, field) == "invalid data":
         datadict = {"error": "invalid data try agen"}
         datadict.update(data)
         return JsonResponse(datadict)
 
-    if get_position(figure, fild) != "invalid data":
-        datadict = {"availableMoves": get_position(figure, fild)}
+    if get_position(figure, field) != "invalid data":
+        datadict = {"availableMoves": get_position(figure, field)}
         datadict.update(data)
         return JsonResponse(datadict)
 
 
-def validate_move_for_chess(request, figure, fild, second):
+def validate_move_for_chess(request, figure, field, second):
     figure = figure.lower()
-    if validate_move_for(figure, fild, second) == "invalid data":
+    if validate_move_for(figure, field, second) == "invalid data":
         return HttpResponse("invalid data try again ")
     data = {
         "figure": f"{figure}",
-        "currentField": f"{fild}",
+        "currentField": f"{field}",
         "destField": f"{second}",
     }
-    if validate_move_for(figure, fild, second) == "invalid data":
+    if validate_move_for(figure, field, second) == "invalid data":
         datadict = {"error": "invalid data try again"}
         datadict.update(data)
         return JsonResponse(datadict)
-    if validate_move_for(figure, fild, second) != "invalid data":
-        datadict = {"move": validate_move_for(figure, fild, second)}
+    if validate_move_for(figure, field, second) != "invalid data":
+        datadict = {"move": validate_move_for(figure, field, second)}
         datadict.update(data)
         return JsonResponse(datadict)
     return JsonResponse(data)
