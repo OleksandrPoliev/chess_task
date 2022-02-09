@@ -1,3 +1,14 @@
+"""
+function :
+            start
+            :return main page
+            index
+            :return possible move for url figure/position
+            validate_move_for_chess
+            :return validate_move for figure/position/needed_position
+
+"""
+
 from django.http import HttpResponse
 from .figure import get_position, validate_move_for
 from django.http import JsonResponse
@@ -8,8 +19,8 @@ from django.http import HttpResponseServerError
 def start(request):
     return HttpResponse(
         "Hi, if you need chess helper just write in url field  something "
-        "like this /pawn/a3 and you get json with all possible move for pawn "
-        "from this chess field or write /pawn/a3/b2 and you get json with "
+        "like this:   /pawn/a3   and you get json with all possible move for pawn "
+        "from this chess field or write:   /pawn/a3/b2   and you get json with "
         "info is that move possible or not "
     )
 
@@ -36,7 +47,7 @@ def validate_move_for_chess(request, figure, fild, second):
     if validate_move_for(figure, fild, second) == "invalid data":
         return HttpResponse("invalid data try again ")
     data = {
-        "figure": f"{figure}\\n",
+        "figure": f"{figure}",
         "currentField": f"{fild}",
         "destField": f"{second}",
     }
@@ -45,7 +56,7 @@ def validate_move_for_chess(request, figure, fild, second):
         datadict.update(data)
         return JsonResponse(datadict)
     if validate_move_for(figure, fild, second) != "invalid data":
-        datadict = {"availableMoves": validate_move_for(figure, fild, second)}
+        datadict = {"move": validate_move_for(figure, fild, second)}
         datadict.update(data)
         return JsonResponse(datadict)
     return JsonResponse(data)

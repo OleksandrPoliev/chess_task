@@ -1,3 +1,11 @@
+"""
+function :
+            get_position : get data from views.index
+            :return available_moves from Figure class
+            validate_move_for : get data  from views.validate_move_for_chess
+            :return validate_move from Figure class
+
+"""
 from abc import ABC, abstractmethod
 
 
@@ -47,15 +55,15 @@ class Rook(Figure):
 
 class King(Figure):
     def list_available_moves(self):
-        for i, j in zip(self.horizontal, self.vertical):
-            if self.horizontal.index(i) in [
-                self.horizontal.index(self.x) - 1,
-                self.horizontal.index(self.x),
-                self.horizontal.index(self.x) + 1,
-            ]:
-                for k in range(1, 4):
-                    if i + str(k) != str(self.x + self.y):
-                        self.available_moves.append(i + str(k))
+        x_cord = self.horizontal.index(self.x) + 1
+        y_cord = self.vertical.index(self.y) + 1
+        for i in range(1, 9):
+            for z in range(1, 9):
+                valid_move = abs(x_cord - i) <= 1 and abs(y_cord - z) \
+                             <= 1 and (x_cord, y_cord) != (i, z)
+                if valid_move:
+                    self.available_moves.append \
+                        (f'{self.horizontal[i - 1]}{self.vertical[z - 1]}')
         return self.available_moves
 
 
@@ -78,7 +86,7 @@ class Knight(Figure):
         y_cord = self.vertical.index(self.y) + 1
         for colN in range(1, 9):
             for rowN in range(1, 9):
-                if (colN == x_cord + 1 or colN == x_cord - 1) and\
+                if (colN == x_cord + 1 or colN == x_cord - 1) and \
                         (rowN == y_cord - 2 or rowN == y_cord + 2):
                     self.available_moves.append(f"{self.horizontal[colN - 1]}"
                                                 f"{rowN}")
